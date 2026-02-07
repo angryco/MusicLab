@@ -151,7 +151,7 @@ const screen1 = document.getElementById('screen1');
             3: `
                 
                 <ul>
-                    <li><a href="#" onclick="alert('Клик 1'); return false;">info</a></li>
+                    <li><a href="info.html" target="_blank">info</a></li>
                 </ul>
             `,
             4: `
