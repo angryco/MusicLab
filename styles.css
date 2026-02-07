@@ -69,9 +69,11 @@
         }
 
         .content2 {
+            position: relative;
             text-align: center;
             color: rgb(0, 0, 0);
             width: 100%;
+            z-index: 10;
         }
 
         .clock-container {
@@ -127,7 +129,6 @@
         .list {
             padding-left: 40px;
             padding-top: 20px;
-            border: solid 1px;
 
         }
 
@@ -135,4 +136,277 @@
             font-family: monospace;
             font-size: 20px;
             padding-bottom: 4px;
+        }
+
+        .left ol {
+        list-style: none;
+        padding: 8px;
+        cursor: pointer;
+        }
+
+        .left ol:hover {
+        background: #f0f0f0;
+        }
+
+        .right {
+            position: absolute;
+            background-color: rgb(248, 248, 248);
+            left: 1020px;
+            top: 0;
+            width: 400px;
+            height: 500px;
+            border-radius: 8px;
+            box-shadow: 2px 2px rgb(185, 185, 185);
+            padding: 20px;
+            font-family: monospace;
+            font-size: 18px;
+        }
+
+        /* скрытый лист */
+        .hidden {
+        display: none;
+        }
+
+        /* Стили для контента в правом блоке */
+        .right h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .right p {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .right ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .right ul li {
+            margin-bottom: 8px;
+        }
+
+        .right a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .right a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Музяо */
+
+        .audio-player {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            width: 600px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            z-index: 20;
+            position: fixed;
+            top: 34%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .left-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .track-art {
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        img  {
+            border-radius: 15px;
+        }
+
+        .main-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            background: #f0f0f0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .control-btn:hover {
+            background: #e0e0e0;
+            transform: scale(1.1);
+        }
+
+        .play-pause {
+            width: 55px;
+            height: 55px;
+            background: #000;
+            color: #fff;
+            font-size: 24px;
+        }
+
+        .play-pause:hover {
+            background: #333;
+        }
+
+        .right-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .track-info {
+            text-align: left;
+        }
+
+        .track-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 5px;
+        }
+
+        .track-artist {
+            font-size: 15px;
+            color: #666;
+        }
+
+        .progress-container {
+            width: 100%;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: #000;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.1s linear;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .volume-icon {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .volume-level {
+            height: 100%;
+            background: #000;
+            width: 70%;
+            border-radius: 10px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: transparent;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            background: #000;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            background: #000;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+        }
+
+        .playlist {
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            background: #f8f8f8;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            font-family: monospace;
+        }
+
+        .playlist-item {
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .playlist-item:hover {
+            background: #eaeaea;
+        }
+
+        .playlist-item.active {
+            background: #000;
+            color: #fff;
         }

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Japan</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="content2">
+            <div class="clock-container">
+                <div class="clock" id="clock">00:00:00</div>
+            </div>
+        </div>
+
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <div class="audio-player">
+        <div class="left-section">
+            <div class="track-art"><img src="aoikoiimg(1).jpg" alt=""></div>
+            <div class="main-controls">
+                <button class="control-btn" id="prevBtn">⏮</button>
+                <button class="control-btn play-pause" id="playPauseBtn">▶</button>
+                <button class="control-btn" id="nextBtn">⏭</button>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="track-info">
+                <div class="track-title">AoiKoi</div>
+                <div class="track-artist">MASS OF THE FERMENTING DREGS</div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar">
+                    <div class="progress" id="progress"></div>
+                </div>
+                <div class="time-info">
+                    <span id="currentTime">0:00</span>
+                    <span id="duration">0:00</span>
+                </div>
+            </div>
+
+            <div class="volume-container">
+                <div class="volume-icon">🔊</div>
+                <div class="volume-slider">
+                    <div class="volume-level" id="volumeLevel"></div>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="70">
+                </div>
+            </div>
+        </div>
+
+        <audio id="audio" src="aoikoi.mp3"></audio>
+    </div>
+
+    <div class="playlist">
+        <div class="playlist-item" data-index="0">AoiKoi — MASS OF THE FERMENTING DREGS</div>
+        <div class="playlist-item" data-index="1">Plastic Tree - Kuchu-Buranko</div>
+        <div class="playlist-item" data-index="2">Musiikki</div>
+    </div>
+
+
+
+     
+   <script>
+
+     const audio = document.getElementById('audio');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progress = document.getElementById('progress');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeLevel = document.getElementById('volumeLevel');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+
+        // Play/Pause
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.textContent = '⏸';
+            } else {
+                audio.pause();
+                playPauseBtn.textContent = '▶';
+            }
+        });
+
+        // Обновление прогресса
+        audio.addEventListener('timeupdate', () => {
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progress.style.width = progressPercent + '%';
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        });
+
+        // Загрузка метаданных
+        audio.addEventListener('loadedmetadata', () => {
+            durationEl.textContent = formatTime(audio.duration);
+        });
+
+        // Клик по прогресс бару
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = percent * audio.duration;
+        });
+
+        // Громкость
+        volumeSlider.addEventListener('input', (e) => {
+            const volume = e.target.value / 100;
+            audio.volume = volume;
+            volumeLevel.style.width = e.target.value + '%';
+        });
+
+        // Кнопки переключения треков
+        prevBtn.addEventListener('click', () => {
+            console.log('Предыдущий трек');
+        });
+
+        nextBtn.addEventListener('click', () => {
+            console.log('Следующий трек');
+        });
+
+        // Форматирование времени
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // Установка начальной громкости
+        audio.volume = 0.7;
+
+        const clockElement = document.getElementById('clock');
+        const particlesContainer = document.getElementById('particlesContainer');
+
+        let particles = [];
+        let animationId = null;
+        const particleCount = 150;
+
+        // Функция обновления часов
+        function updateClock() {
+            const now = new Date();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function createParticles() {
+            particlesContainer.innerHTML = '';
+            particles = [];
+            
+            for (let i = 0; i < particleCount; i++) {
+                createParticle();
+            }
+        }
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            const size = Math.random() * 3 + 1;
+            const opacity = Math.random() * 0.7 + 0.3;
+
+            const pinkVariations = [
+                'rgba(255, 182, 193, ', 
+                'rgba(255, 105, 180, ', 
+                'rgba(255, 20, 147, ',  
+                'rgba(219, 112, 147, ', 
+                'rgba(199, 21, 133, '   
+            ];
+            
+            const pinkIndex = Math.floor(Math.random() * pinkVariations.length);
+            const pinkColor = pinkVariations[pinkIndex];
+
+            particle.style.backgroundColor = pinkColor + opacity + ')';
+
+            const startX = Math.random() * window.innerWidth;
+            const startY = Math.random() * -100; 
+            
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${startX}px`;
+            particle.style.top = `${startY}px`;
+            
+            const speed = Math.random() * 1.5 + 0.5;
+            const drift = (Math.random() - 0.5) * 1.5;
+            
+            particlesContainer.appendChild(particle);
+            
+            particles.push({
+                element: particle,
+                x: startX,
+                y: startY,
+                speed: speed,
+                drift: drift,
+                size: size,
+                opacity: opacity
+            });
+        }
+
+        function animateParticles() {
+            particles.forEach(particle => {
+                particle.y += particle.speed;
+                particle.x += particle.drift;
+                
+                if (particle.y > window.innerHeight) {
+                    particle.y = -particle.size;
+                    particle.x = Math.random() * window.innerWidth;
+                }
+                
+                if (particle.x < -particle.size || particle.x > window.innerWidth) {
+                    particle.drift = -particle.drift;
+                }
+                
+                particle.element.style.transform = `translate(${particle.x}px, ${particle.y}px)`;
+                
+                const flicker = Math.sin(Date.now() / 1500 + particle.x) * 0.15 + 0.85;
+                particle.element.style.opacity = particle.opacity * flicker;
+            });
+            
+            animationId = requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            createParticles();
+        });
+
+        // Tähän laitat musiikkia ja sen info
+        updateClock();
+        setInterval(updateClock, 1000);
+        createParticles();
+        animateParticles();
+
+        const tracks = [
+    {
+        title: 'AoiKoi',
+        artist: 'MASS OF THE FERMENTING DREGS',
+        src: 'aoikoi.mp3',
+        img: 'aoikoiimg(1).jpg'
+    },
+    {
+        title: 'Plastic Tree - Kuchu-Buranko',
+        artist: 'riririrurisu ',
+        src: 'tree.mp3',
+        img: 'tree.jpg'
+    },
+    {
+        title: 'Track 3',
+        artist: 'Artist',
+        src: 'mp3',
+        img: 'jpg'
+    }
+];
+
+    let currentTrack = 0;
+
+    const titleEl = document.querySelector('.track-title');
+    const artistEl = document.querySelector('.track-artist');
+    const artEl = document.querySelector('.track-art img');
+    const playlistItems = document.querySelectorAll('.playlist-item');
+
+    function loadTrack(index) {
+        currentTrack = index;
+        audio.src = tracks[index].src;
+        titleEl.textContent = tracks[index].title;
+        artistEl.textContent = tracks[index].artist;
+        artEl.src = tracks[index].img;
+
+        playlistItems.forEach(item => item.classList.remove('active'));
+        playlistItems[index].classList.add('active');
+
+        audio.play();
+        playPauseBtn.textContent = '⏸';
+    }
+
+    // клики по списку
+    playlistItems.forEach(item => {
+        item.addEventListener('click', () => {
+            loadTrack(Number(item.dataset.index));
+        });
+    });
+
+    // prev / next
+    prevBtn.addEventListener('click', () => {
+        currentTrack = (currentTrack - 1 + tracks.length) % tracks.length;
+        loadTrack(currentTrack);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentTrack = (currentTrack + 1) % tracks.length;
+        loadTrack(currentTrack);
+    });
+
+    // автоследующий трек
+    audio.addEventListener('ended', () => {
+        nextBtn.click();
+    });
+
+    </script>
+</body>
+</html>

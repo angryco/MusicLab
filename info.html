@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<style>
+    .info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: monospace;
+        font-size: 18px;
+    }
+
+    .portti {
+        position: absolute;
+        background-color: rgb(248, 248, 248);
+        z-index: 4;
+        border-radius: 8px;            
+        box-shadow: 2px 2px rgb(185, 185, 185);
+        width: 600px;
+        height: 350px;
+    }
+</style>
+<body>
+    
+ <div class="particles-container" id="particlesContainer"></div>
+
+
+<div class="info">
+    <div class="portti">
+        <h1>Info</h1>
+        <br>
+        <ul>
+            <ol><a href="https://github.com/angryco"><b>GitHub</b></a></ol>
+            <ol><a href="https://www.youtube.com/"><b>Youtube</b></a></ol>
+            <ol><a href="https://www.google.com/"><b>Google</b></a></ol>
+        </ul>
+    </div>
+</div>
+    <script>
+        const particlesContainer = document.getElementById('particlesContainer');
+        let particles = [];
+        let animationId = null;
+        const particleCount = 150;
+
+        function createParticles() {
+            particlesContainer.innerHTML = '';
+            particles = [];
+            
+            for (let i = 0; i < particleCount; i++) {
+                createParticle();
+            }
+        }
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            const size = Math.random() * 3 + 1;
+            const opacity = Math.random() * 0.7 + 0.3;
+            const pinkVariations = [
+                'rgba(255, 182, 193, ', 
+                'rgba(255, 105, 180, ', 
+                'rgba(255, 20, 147, ',  
+                'rgba(219, 112, 147, ', 
+                'rgba(199, 21, 133, '   
+            ];
+            
+            const pinkIndex = Math.floor(Math.random() * pinkVariations.length);
+            const pinkColor = pinkVariations[pinkIndex];
+            particle.style.backgroundColor = pinkColor + opacity + ')';
+            const startX = Math.random() * window.innerWidth;
+            const startY = Math.random() * -100; 
+            
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${startX}px`;
+            particle.style.top = `${startY}px`;
+            
+            const speed = Math.random() * 1.5 + 0.5;
+            const drift = (Math.random() - 0.5) * 1.5;
+            
+            particlesContainer.appendChild(particle);
+            
+            particles.push({
+                element: particle,
+                x: startX,
+                y: startY,
+                speed: speed,
+                drift: drift,
+                size: size,
+                opacity: opacity
+            });
+        }
+        function animateParticles() {
+            particles.forEach(particle => {
+                particle.y += particle.speed;
+                particle.x += particle.drift;
+                
+                if (particle.y > window.innerHeight) {
+                    particle.y = -particle.size;
+                    particle.x = Math.random() * window.innerWidth;
+                }
+                
+                if (particle.x < -particle.size || particle.x > window.innerWidth) {
+                    particle.drift = -particle.drift;
+                }
+                
+                particle.element.style.transform = `translate(${particle.x}px, ${particle.y}px)`;
+                
+                const flicker = Math.sin(Date.now() / 1500 + particle.x) * 0.15 + 0.85;
+                particle.element.style.opacity = particle.opacity * flicker;
+            });
+            
+            animationId = requestAnimationFrame(animateParticles);
+        }
+        window.addEventListener('resize', () => {
+            createParticles();
+        });
+
+        createParticles();
+        animateParticles();
+    </script>
+</body>
+</html>

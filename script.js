@@ -25,12 +25,7 @@ const screen1 = document.getElementById('screen1');
             
             clockElement.textContent = `${hours}:${minutes}:${seconds}`;
             
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            };
+            
             
         }
 
@@ -80,7 +75,7 @@ const screen1 = document.getElementById('screen1');
             // Случайная скорость падения
             const speed = Math.random() * 1.5 + 0.5;
             
-            // Случайное колебание (дрейф)
+            // дрейф
             const drift = (Math.random() - 0.5) * 1.5;
             
             particlesContainer.appendChild(particle);
@@ -100,10 +95,10 @@ const screen1 = document.getElementById('screen1');
         // Функция анимации частиц
         function animateParticles() {
             particles.forEach(particle => {
-                // Двигаем частицу вниз
+                // Двигаю частицу вниз
                 particle.y += particle.speed;
                 
-                // Добавляем больше направленя влево-вправо
+                // Добавляю больше направленя влево-вправо
                 particle.x += particle.drift;
                 
                 // Если частица ушла за нижний край, возвращаем её наверх
@@ -136,3 +131,39 @@ const screen1 = document.getElementById('screen1');
         // время обновления
         updateClock();
         setInterval(updateClock, 1000);
+
+        function showContent(id) {
+        const content = document.getElementById("content");
+
+        const data = {
+            1: `
+                <h3>Japan vibe</h3>
+                <ul>
+                    <li><a href="Japan.html" target="_blank">Japan</a></li>
+                </ul>
+            `,
+            2: `
+                <h3>Gangsta</h3>
+                <ul>
+                    <li><a href="Gangsta.html" target="_blank">Gangsta</a></li>
+                </ul>
+            `,
+            3: `
+                
+                <ul>
+                    <li><a href="#" onclick="alert('Клик 1'); return false;">info</a></li>
+                </ul>
+            `,
+            4: `
+                <ul>
+                    <li><a href="tietoa.html" target="_blank">tietoa</a></li>
+                    <li><a href="#" onclick="alert('Hello world'); return false;">click me</a></li>
+                </ul>
+            `
+        };
+
+        content.innerHTML = data[id];
+
+        // показываю второй лист
+        content.classList.remove("hidden");
+        }
